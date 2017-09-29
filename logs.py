@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 # simple python tool to extract some log and article data
 # from a media companies db
 
@@ -73,6 +75,7 @@ def logResults():
         cursor.close()
         db.close()
 
+if __name__ == '__main__':
 
 articleCount()
 authors()
