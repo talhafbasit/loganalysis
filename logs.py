@@ -5,16 +5,17 @@ import psycopg2
 
 DBNAME = "news"
 
+
 def connect():
-    """Connect to the PostgreSQL database.  Returns a database connection."""
+    #Connect to the PostgreSQL database.  Returns a database connection.
     #print("connected to postgres datbase: ", DBNAME)
     return psycopg2.connect(dbname=DBNAME)
 
 
-
 def articleCount():
     sql = "select count (path) as pageviews, articles.title  from \
-    log, articles where substring(log.path,10) = articles.slug  group by path, articles.title order by count(*) desc limit 3;"
+    log, articles where substring(log.path,10) = articles.slug  \
+    group by path, articles.title order by count(*) desc limit 3;"
     db = connect()
     cursor = db.cursor()
     cursor.execute(sql)
@@ -22,11 +23,13 @@ def articleCount():
     print("The top 3 articles based on pageviews are as follows:\n")
     for row in cursor.fetchall():
         articles = row
-        print("There were {} views of the article - {}".format(articles[0], articles[1]))
+        print("There were {} views of the article - {}".format(articles[0],
+                                                               articles[1]))
 
     print("\n")
     cursor.close()
     db.close()
+
 
 def authors():
     sql = "select name as author, SUM(pageviews) as total_pageview from \
@@ -47,8 +50,10 @@ def authors():
 
 
 def logResults():
-        sql = "select date, (100.00 * cast(good_status as decimal)/cast(all_status as decimal)) as percent_good  \
-        from  (select time::date as date,  count(status) as all_status, sum((status='200 OK')::int) as good_status \
+        sql = "select date, \
+            (100.00 * cast(good_status as decimal)/cast(all_status as decimal)) \
+            as percent_good from  (select time::date as date,  count(status) \
+            as all_status, sum((status='200 OK')::int) as good_status \
         from log group by date) as foo;"
         db = connect()
         cursor = db.cursor()
@@ -66,6 +71,7 @@ def logResults():
 
         cursor.close()
         db.close()
+
 
 articleCount()
 authors()
