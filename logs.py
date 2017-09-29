@@ -7,8 +7,8 @@ DBNAME = "news"
 
 
 def connect():
-    #Connect to the PostgreSQL database.  Returns a database connection.
-    #print("connected to postgres datbase: ", DBNAME)
+    # Connect to the PostgreSQL database.  Returns a database connection.
+    # print("connected to postgres datbase: ", DBNAME)
     return psycopg2.connect(dbname=DBNAME)
 
 
@@ -51,9 +51,9 @@ def authors():
 
 def logResults():
         sql = "select date, \
-            (100.00 * cast(good_status as decimal)/cast(all_status as decimal)) \
-            as percent_good from  (select time::date as date,  count(status) \
-            as all_status, sum((status='200 OK')::int) as good_status \
+        (100.00 * cast(good_status as decimal)/cast(all_status as decimal)) \
+        as percent_good from  (select time::date as date,  count(status) \
+        as all_status, sum((status='200 OK')::int) as good_status \
         from log group by date) as foo;"
         db = connect()
         cursor = db.cursor()
@@ -65,7 +65,8 @@ def logResults():
             if logs[1] < 99.0:
                 percentErrors = 100-logs[1]
                 percentErrors = str(round(percentErrors, 2))
-                print("Date: {} had {}% errors.".format(logs[0], percentErrors))
+                print("Date: {} had {}% errors.".format(logs[0],
+                                                        percentErrors))
 
         print("\n")
 
