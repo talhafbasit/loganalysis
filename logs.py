@@ -76,7 +76,6 @@ def logResults():
         db.close()
 
 if __name__ == '__main__':
-
-articleCount()
-authors()
-logResults()
+    articleCount()
+    authors()
+    logResults()
